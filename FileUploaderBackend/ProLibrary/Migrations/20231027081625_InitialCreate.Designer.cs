@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PRORepository.Models;
+using ProLibrary.Models;
 
 #nullable disable
 
-namespace PRORepository.Migrations
+namespace ProLibrary.Migrations
 {
     [DbContext(typeof(PROContext))]
-    partial class PROContextModelSnapshot : ModelSnapshot
+    [Migration("20231027081625_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

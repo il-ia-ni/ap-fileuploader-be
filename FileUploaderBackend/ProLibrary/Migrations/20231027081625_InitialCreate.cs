@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PRORepository.Migrations
+namespace ProLibrary.Migrations
 {
     public partial class InitialCreate : Migration
     {

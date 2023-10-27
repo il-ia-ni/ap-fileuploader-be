@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PRORepository.Models
+namespace ProLibrary.Models
 {
     public partial class DcMetadata
     {

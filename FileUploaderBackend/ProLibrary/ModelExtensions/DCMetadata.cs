@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace PRORepository
+namespace ProLibrary.Models
 {
     public partial class DCMetadata
     {

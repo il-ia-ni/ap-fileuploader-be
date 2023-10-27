@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-namespace PRORepository.Models
+namespace ProLibrary.Models
 {
     public partial class PROContext : DbContext
     {
