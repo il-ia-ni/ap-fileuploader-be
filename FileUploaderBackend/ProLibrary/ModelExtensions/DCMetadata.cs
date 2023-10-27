@@ -10,12 +10,12 @@ namespace ProLibrary.Models
 {
     public partial class DcMetadata
     {
-        [Timestamp]
-        public byte[]? RowVersion { get; set; }  // this prop is used for tracking lazy concurrency
+        //[Timestamp]
+        //public byte[]? RowVersion { get; set; }  // this prop is used for tracking pessimistic concurrency
 
         public override string ToString()
         {
-            return "This is a test value of DCMetadata class";
+            return "Item " + this.ItemName + " is of type " + this.ItemType;
         }
     }
 }
