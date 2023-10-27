@@ -1,8 +1,8 @@
 {
   "ConnectionStrings": {
     "PRO": {
-      "SqlServerDEV": "Server=localhost,55488;Database=PRO;User Id=PRO;Password=10112023Abgabe&Frist!;",
-      "SqlServerPROD": "Server=10.x.x.x.,148;Database=PRO;User Id=PRO;Password=UNKNOWN;"
+      "SqlServerDEV": "Server=localhost,58584;Database=PRO;User Id=PRO;Password=10112023Abgabe&Frist!;",
+      "SqlServerPROD": "Server=10.133.222.112.,1433;Database=PRO;User Id=PRO;Password=SECRET;"
     }
   },
   "exclude": [
