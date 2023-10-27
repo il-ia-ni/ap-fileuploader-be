@@ -1,5 +1,6 @@
+using FileUploaderBackend.Services;
 using Microsoft.EntityFrameworkCore;
-using PRORepository.Models;
+using ProLibrary.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<PROContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("PRO:SqlServerDEV")));
+
+builder.Services.AddTransient<IProRepository, ProRepository>();
 
 var app = builder.Build();
 

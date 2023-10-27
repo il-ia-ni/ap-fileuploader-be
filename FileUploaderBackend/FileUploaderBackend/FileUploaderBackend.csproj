@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PRORepository\PRORepository.csproj" />
+    <ProjectReference Include="..\ProLibrary\ProLibrary.csproj" />
   </ItemGroup>
 
 </Project>

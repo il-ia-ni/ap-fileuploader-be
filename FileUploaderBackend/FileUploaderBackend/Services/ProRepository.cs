@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PRORepository.Models;
+using ProLibrary.Models;
 
 namespace FileUploaderBackend.Services
 {
-    public class PRORepository
+    public class ProRepository : IProRepository
     {
         private readonly PROContext _dbContext;
-        public PRORepository(PROContext dbContext) 
+        public ProRepository(PROContext dbContext) 
         {
             _dbContext = dbContext;
         }

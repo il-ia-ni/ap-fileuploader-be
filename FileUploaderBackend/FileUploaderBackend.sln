@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileUploaderBackend", "FileUploaderBackend\FileUploaderBackend.csproj", "{B903FDA3-C49E-416E-81C9-6B5745B6F603}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRORepository", "PRORepository\PRORepository.csproj", "{A180E24E-8505-4AE7-946A-604AD8B8B2B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProLibrary", "ProLibrary\ProLibrary.csproj", "{A180E24E-8505-4AE7-946A-604AD8B8B2B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
