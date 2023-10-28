@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProLibrary.Models
 {
-    public partial class PROContext
+    public partial class PROContext : DbContext
     {
         private static IConfiguration? _configuration;
 
