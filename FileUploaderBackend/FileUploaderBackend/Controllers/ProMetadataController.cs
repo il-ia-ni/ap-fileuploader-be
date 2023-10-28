@@ -21,7 +21,7 @@ namespace FileUploaderBackend.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<IEnumerable<DcMetadata>>> GetAllMetadataItems()
+        public async Task<ActionResult<IEnumerable<DcMetadata>>> GetMetadata()
         {
             try
             {
@@ -38,7 +38,7 @@ namespace FileUploaderBackend.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<DcMetadata>> GetSingleMetadataItem(int mdId)
+        public async Task<ActionResult<DcMetadata>> GetMetadataById(int mdId)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace FileUploaderBackend.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult> CreateMetadataItem([FromBody] DcMetadata mdEntity)
+        public async Task<ActionResult> CreateMetadata([FromBody] DcMetadata mdEntity)
         {
             if (mdEntity == null)
             {
@@ -69,7 +69,7 @@ namespace FileUploaderBackend.Controllers
             try
             {
                 await _repository.CreateMetadataItem(mdEntity);
-                return CreatedAtAction("GetSingleMetadataItem", new { mdId = mdEntity.ItemId }, mdEntity);
+                return CreatedAtAction("GetMetadataById", new { mdId = mdEntity.ItemId }, mdEntity);
             }
             catch (Exception ex)
             {
@@ -82,7 +82,7 @@ namespace FileUploaderBackend.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult> UpdateMetadataItem(int mdId, [FromBody] DcMetadata mdEntity)
+        public async Task<ActionResult> UpdateMetadata(int mdId, [FromBody] DcMetadata mdEntity)
         {
             try
             {
@@ -101,11 +101,27 @@ namespace FileUploaderBackend.Controllers
             }
         }
 
+        [HttpDelete("all")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(500)]
+        public async Task<ActionResult> DeleteMetadata()
+        {
+            try
+            {
+                await _repository.DeleteAllMdItems();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpDelete("{mdId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult> DeleteSingleMetadataItem(int mdId)
+        public async Task<ActionResult> DeleteMetadataById(int mdId)
         {
             try
             {
@@ -116,22 +132,6 @@ namespace FileUploaderBackend.Controllers
                 }
 
                 await _repository.DeleteSingleMetadataItem(mdId);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [HttpDelete("all")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(500)]
-        public async Task<ActionResult> DeleteAllMdItems()
-        {
-            try
-            {
-                await _repository.DeleteAllMdItems();
                 return NoContent();
             }
             catch (Exception ex)
