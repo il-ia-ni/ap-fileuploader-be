@@ -117,7 +117,7 @@ namespace TestFileUploaderBackend.Services
         }
 
         [Fact]
-        public async Task UpdateMetadataItem_StateUnderTest_ExpectedBehavior()
+        public async Task UpdateMetadataItem_RUT_ExpectedBehavior()
         {
             // Arrange
             var proRepository = await CreateProRepositoryAsync();  // CUT
