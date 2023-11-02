@@ -18,9 +18,9 @@ namespace FileUploaderBackend.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUser([FromBody] UserLoginDto newUser, [FromBody] string password, [FromBody] string role = "")
+        public IActionResult AddUser([FromBody] UserLoginDto newUser, string role = "")
         {
-            if (string.IsNullOrEmpty(newUser.Username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(newUser.Username) || string.IsNullOrEmpty(newUser.Password))
             {
                 return BadRequest("Username and password are required.");
             }
@@ -30,7 +30,7 @@ namespace FileUploaderBackend.Controllers
                 return BadRequest("User with the same username already exists.");
             }
 
-            bool isUserCreated = _authService.CreateUser(newUser, password, role);
+            bool isUserCreated = _authService.CreateUser(newUser, role);
 
             if (isUserCreated)
             {

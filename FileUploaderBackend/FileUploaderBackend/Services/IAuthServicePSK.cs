@@ -7,6 +7,6 @@ namespace FileUploaderBackend.Services
     {
         bool AuthenticateUser(string username, string password);
         bool UserExists(string username);
-        bool CreateUser(UserLoginDto newUser, string password, string role);
+        bool CreateUser(UserLoginDto newUser, string role);
     }
 }

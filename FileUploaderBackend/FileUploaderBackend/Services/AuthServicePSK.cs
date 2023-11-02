@@ -41,7 +41,7 @@ namespace FileUploaderBackend.Services
             return _dbContext.TmiUsers.Any(u => u.Username == username);
         }
 
-        public bool CreateUser(UserLoginDto userData, string password, string role = "guest")
+        public bool CreateUser(UserLoginDto userData, string role = "guest")
         {
             if (userData == null)
             {
@@ -52,7 +52,7 @@ namespace FileUploaderBackend.Services
             byte[] salt = HashingFunction.GenerateSalt();
 
             // Compute the password hash using the provided password and the generated salt
-            byte[] passwordHash = HashingFunction.ComputeHash(Encoding.UTF8.GetBytes(password), salt);
+            byte[] passwordHash = HashingFunction.ComputeHash(Encoding.UTF8.GetBytes(userData.Password), salt);
 
             TmiUser newUser = new TmiUser();
 
