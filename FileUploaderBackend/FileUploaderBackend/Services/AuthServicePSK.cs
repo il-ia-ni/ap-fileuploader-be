@@ -58,7 +58,9 @@ namespace FileUploaderBackend.Services
 
             newUser.PasswordHash = passwordHash;
             newUser.PasswordSalt = salt;
+            newUser.Username = userData.Username;
             newUser.RoleName = role;
+            newUser.LastModifiedAt = DateTime.UtcNow;
 
             try
             {
