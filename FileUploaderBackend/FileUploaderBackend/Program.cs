@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PROContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("PRO:SqlServerDEV")));
 
+builder.Services.AddScoped<IAuthServicePSK, AuthServicePSK>();
 builder.Services.AddTransient<IProRepository, ProRepository>();
 builder.Services.AddTransient<IExcelReaderService, ExcelReaderService>();
 
