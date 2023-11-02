@@ -1,7 +1,10 @@
-﻿namespace FileUploaderBackend.Services
+﻿using System.Data;
+using System.Text;
+
+namespace FileUploaderBackend.Services
 {
     public interface IExcelReaderService
     {
-        List<Dictionary<string, string>> ReadExcelFile(Stream fileStream);
+        DataTable ReadExcelFile(Stream fileStream, Encoding encoding);
     }
 }
