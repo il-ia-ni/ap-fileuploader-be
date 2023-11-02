@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace ProLibrary.Models
         {
             modelBuilder.Entity<DcMetadata>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.ItemId);
 
                 entity.ToTable("DC_METADATA", "PRO");
 
