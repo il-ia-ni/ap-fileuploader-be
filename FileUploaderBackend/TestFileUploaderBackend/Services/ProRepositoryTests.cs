@@ -21,16 +21,16 @@ namespace TestFileUploaderBackend.Services
 
         public ProRepositoryTests()
         {
-            this.mockFactory = new MockRepository(MockBehavior.Strict);
+            mockFactory = new MockRepository(MockBehavior.Strict);
 
-            //this.mockPROContext = this.mockFactory.Create<fakeDbContext>();
+            //mockPROContext = mockFactory.Create<fakeDbContext>();
             var inmemoryDbName = $"proMd_{DateTime.Now.ToFileTimeUtc()}";
             dbContextOptions = new DbContextOptionsBuilder<PROContext>()
                 .UseInMemoryDatabase(inmemoryDbName)
                 .Options;
             fakeDbContext = new PROContext(dbContextOptions);
 
-            this.mockLogger = this.mockFactory.Create<ILogger<ProRepository>>();
+            mockLogger = mockFactory.Create<ILogger<ProRepository>>();
         }
 
         public void Dispose()
@@ -42,9 +42,7 @@ namespace TestFileUploaderBackend.Services
         private async Task<ProRepository> CreateProRepositoryAsync()
         {
             await PopulateDataInMemoryAsync(fakeDbContext);
-            return new ProRepository(
-                fakeDbContext,
-                this.mockLogger.Object);
+            return new ProRepository(fakeDbContext, mockLogger.Object);
         }
 
         private async Task PopulateDataInMemoryAsync(PROContext context)
@@ -78,7 +76,7 @@ namespace TestFileUploaderBackend.Services
             Assert.NotEmpty(result);
             Assert.Equal(3, result.Count);
 
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -94,7 +92,7 @@ namespace TestFileUploaderBackend.Services
             Assert.NotNull(result);
             Assert.Equal(1, result.ItemId);
 
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -115,17 +113,25 @@ namespace TestFileUploaderBackend.Services
             Assert.Equal(4, result.Count);
             Assert.Equal("test_4", result.Single(i => i.ItemId == 4).ItemName);
 
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
         public async Task UpdateMetadataItem_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var proRepository = await CreateProRepositoryAsync();
-            
+            var proRepository = await CreateProRepositoryAsync();  // CUT
+            var testUpdMd = new DcMetadata() { ItemName = "test_update"};
 
-            this.mockFactory.VerifyAll();
+            // Act
+            await proRepository.UpdateMetadataItem(1, testUpdMd);  // UUT
+            var result = await proRepository.GetAllMetadataItems();
+
+            Assert.NotEmpty(result);
+            Assert.Equal(3, result.Count);
+            Assert.Equal("test_update", result.Single(i => i.ItemId == 1).ItemName);
+
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -141,7 +147,7 @@ namespace TestFileUploaderBackend.Services
 
             // Assert
             Assert.DoesNotContain(testMd, result);
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
     }
 }
