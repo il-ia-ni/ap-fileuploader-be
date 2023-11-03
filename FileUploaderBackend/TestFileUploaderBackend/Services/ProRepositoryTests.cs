@@ -64,6 +64,40 @@ namespace TestFileUploaderBackend.Services
         }
 
         [Fact]
+        public async void GetTableSchema_ReturnsTableSchema()
+        {
+            // Arrange
+            var tableName = "DcMetadata"; 
+            var expectedSchema = new Dictionary<string, string>
+            {
+                { "ItemId", "Int32" },
+                { "Host", "String" },
+                { "ItemComment", "String" },
+                { "ItemContainer", "String" },
+                { "ItemName", "String" },
+                { "ItemSource", "String" },
+                { "ItemType", "String" },
+                { "LastModifiedAt", "DateTime" },
+                { "MaxVal", "Nullable`1" },
+                { "MinVal", "Nullable`1" },
+                { "Orientation", "String" },
+                { "Scaling", "Nullable`1" },
+                { "Sensor", "String" },
+                { "Unit", "String" },
+                { "UpdateCycle", "Nullable`1" },
+            };
+
+            var proRepository = await CreateProRepositoryAsync();  // CUT
+
+            // Act
+            var result = proRepository.GetTableSchema(tableName);  // UUT
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(expectedSchema, result);
+        }
+
+        [Fact]
         public async Task GetAllMetadataItems_RUT_ExpectedBehavior()
         {
             // Arrange

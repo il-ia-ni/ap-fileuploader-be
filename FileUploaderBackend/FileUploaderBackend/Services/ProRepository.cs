@@ -21,6 +21,32 @@ namespace FileUploaderBackend.Services
             _logger = logger;
         }
 
+        public IDictionary<string, string> GetTableSchema(string tableName)
+        {
+            var tableSchema = new Dictionary<string, string>();
+
+            try
+            {
+                var modelNamespace = _dbContext.GetType().Namespace;
+                var tableColumns = _dbContext.Model.FindEntityType($"{modelNamespace}.{tableName}")?.GetProperties();
+                if (tableColumns != null)
+                {
+                    foreach (var column in tableColumns)
+                    {
+                        tableSchema.Add(column.Name, column.ClrType.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while retrieving table schema");
+                throw;
+            }
+
+            return tableSchema;
+        }
+
+
         public async Task<ICollection<DcMetadata>> GetAllMetadataItems()
         {
             try

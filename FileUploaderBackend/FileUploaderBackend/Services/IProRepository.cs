@@ -4,6 +4,7 @@ namespace FileUploaderBackend.Services
 {
     public interface IProRepository
     {
+        IDictionary<string, string> GetTableSchema(string tableName);
         Task CreateMetadataItem(DcMetadata mdEntity);
         Task DeleteAllMdItems();
         Task DeleteSingleMetadataItem(int mdId);

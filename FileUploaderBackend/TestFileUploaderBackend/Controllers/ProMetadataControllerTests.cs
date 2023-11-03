@@ -2,6 +2,7 @@
 using FileUploaderBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ProLibrary.Models;
 using System;
@@ -20,14 +21,69 @@ namespace TestFileUploaderBackend.Controllers
         {
             // var repository = new Mock<IProRepository>();
 
-            this.mockFactory = new MockRepository(MockBehavior.Strict);  // Factory to create and set up behaviours of all mocks of the Testing cls
-            this.mockProRepository = this.mockFactory.Create<IProRepository>();
+            mockFactory = new MockRepository(MockBehavior.Strict);  // Factory to create and set up behaviours of all mocks of the Testing cls
+            mockProRepository = mockFactory.Create<IProRepository>();
         }
 
         private ProMetadataController CreateProMetadataController()
         {
             return new ProMetadataController(
-                this.mockProRepository.Object);
+                mockProRepository.Object);
+        }
+
+        [Fact]
+        public void GetTableSchema_RUT_ExpectedBehavior()
+        {
+            // Arrange
+            var tableName = "DcMetadata";
+            var expectedSchema = new Dictionary<string, string>
+            {
+                { "ItemId", "Int32" },
+                { "Host", "String" },
+                { "ItemComment", "String" },
+                { "ItemContainer", "String" },
+                { "ItemName", "String" },
+                { "ItemSource", "String" },
+                { "ItemType", "String" },
+                { "LastModifiedAt", "DateTime" },
+                { "MaxVal", "Nullable`1" },
+                { "MinVal", "Nullable`1" },
+                { "Orientation", "String" },
+                { "Scaling", "Nullable`1" },
+                { "Sensor", "String" },
+                { "Unit", "String" },
+                { "UpdateCycle", "Nullable`1" },
+            };
+
+            mockProRepository.Setup(r => r.GetTableSchema(tableName)).Returns(expectedSchema);
+
+            var proMetadataController = CreateProMetadataController();  // CUT
+
+            // Act
+            var result = proMetadataController.GetTableSchema(tableName);  // UUT
+
+            // Assert
+            var actionResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.NotNull(actionResult.Value);
+            Assert.Equal(expectedSchema, actionResult.Value);
+        }
+
+        [Fact]
+        public void GetTableSchema_SUT_NotFound_ExpectedBehavior()
+        {
+            // Arrange
+            var tableName = "NotExistantTable";
+
+            mockProRepository.Setup(r => r.GetTableSchema(tableName)).Returns(new Dictionary<string, string>());
+
+            var proMetadataController = CreateProMetadataController();  // CUT
+
+            // Act
+            var result = proMetadataController.GetTableSchema(tableName);  // UUT
+
+            // Assert
+            var actionResult = Assert.IsType<NotFoundObjectResult>(result.Result);
+            Assert.Equal(404, actionResult.StatusCode);
         }
 
         [Fact]
@@ -41,8 +97,8 @@ namespace TestFileUploaderBackend.Controllers
             var result = await proMetadataController.GetMetadata();  // UUT
 
             // Assert
-            var actionResult = result.Result;
-            Assert.IsType<OkObjectResult>(actionResult);
+            var actionResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(200, actionResult.StatusCode);
             mockFactory.VerifyAll();  // makes sure that all assertions in set ups were fullfilled
         }
 
@@ -60,7 +116,7 @@ namespace TestFileUploaderBackend.Controllers
             var actionResult = result.Result;
             var statusCodeResult = Assert.IsType<ObjectResult>(actionResult);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -80,7 +136,7 @@ namespace TestFileUploaderBackend.Controllers
             var objectResult = Assert.IsType<OkObjectResult>(result.Result);
             var metadata = Assert.IsType<DcMetadata>(objectResult.Value);  // includes not null check
             Assert.Equal(1, metadata.ItemId);
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -97,7 +153,7 @@ namespace TestFileUploaderBackend.Controllers
 
             // Assert
             var objectResult = Assert.IsType<NotFoundResult>(result.Result);
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -116,7 +172,7 @@ namespace TestFileUploaderBackend.Controllers
             var objectResult = Assert.IsType<ObjectResult>(result.Result);
             Assert.Equal(500, objectResult!.StatusCode);
 
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -135,7 +191,7 @@ namespace TestFileUploaderBackend.Controllers
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
             var createdMetadata = Assert.IsType<DcMetadata>(createdAtActionResult.Value);
             Assert.Equal(metadata.ItemId, createdMetadata.ItemId);
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -151,7 +207,7 @@ namespace TestFileUploaderBackend.Controllers
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Invalid data provided", badRequestResult.Value);
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]
@@ -169,7 +225,7 @@ namespace TestFileUploaderBackend.Controllers
             // Assert
             var objectResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, objectResult.StatusCode);
-            this.mockFactory.VerifyAll();
+            mockFactory.VerifyAll();
         }
 
         [Fact]

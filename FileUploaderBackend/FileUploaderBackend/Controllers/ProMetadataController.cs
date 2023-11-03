@@ -18,6 +18,30 @@ namespace FileUploaderBackend.Controllers
             _repository = repository;
         }
 
+        [HttpGet("schema/{tableName}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public ActionResult<Dictionary<string, string>> GetTableSchema(string tableName)
+        {
+            try
+            {
+                var tableSchema = _repository.GetTableSchema(tableName);
+                if (tableSchema.Count > 0)
+                {
+                    return Ok(tableSchema);
+                }
+                else
+                {
+                    return NotFound("Table not found or has no columns.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
