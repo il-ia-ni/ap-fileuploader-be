@@ -138,6 +138,7 @@ namespace TestFileUploaderBackend.Services
             // Act
             await proRepository.CreateMetadataItem(new DcMetadata()
             {
+                ItemId = 4,
                 ItemName = "test_4",
             });  // UUT
             var result = await proRepository.GetAllMetadataItems();
