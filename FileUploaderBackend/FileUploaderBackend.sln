@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileUploaderBackend", "FileUploaderBackend\FileUploaderBackend.csproj", "{B903FDA3-C49E-416E-81C9-6B5745B6F603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileUploaderWebAPI", "FileUploaderBackend\FileUploaderWebAPI.csproj", "{B903FDA3-C49E-416E-81C9-6B5745B6F603}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProLibrary", "ProLibrary\ProLibrary.csproj", "{A180E24E-8505-4AE7-946A-604AD8B8B2B4}"
 EndProject
