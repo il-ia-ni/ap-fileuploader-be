@@ -16,32 +16,58 @@ namespace FileUploaderBackend.Services
 
         public bool AuthenticateUser(string username, string password)
         {
-            var user = _dbContext.TmiUsers.SingleOrDefault(u => u.Username == username);
-
-            if (user == null || user.PasswordHash == null || user.PasswordSalt == null)
+            try
             {
-                return false;
+                var user = GetUser(username);
+
+                if (user == null || user.PasswordHash == null || user.PasswordSalt == null)
+                {
+                    return false;
+                }
+
+                // Convert the stored binary salt and password hash to byte arrays
+                byte[] storedSalt = user.PasswordSalt;
+                byte[] storedHash = user.PasswordHash;
+
+                // Generate a password hash using the stored salt
+                byte[] passwordHash = HashingFunction.ComputeHash(Encoding.UTF8.GetBytes(password), storedSalt);
+
+                // Compare the generated hash with the stored hash
+                bool isPasswordValid = passwordHash.SequenceEqual(storedHash);
+
+                return isPasswordValid;
             }
-
-            // Convert the stored binary salt and password hash to byte arrays
-            byte[] storedSalt = user.PasswordSalt;
-            byte[] storedHash = user.PasswordHash;
-
-            // Generate a password hash using the stored salt
-            byte[] passwordHash = HashingFunction.ComputeHash(Encoding.UTF8.GetBytes(password), storedSalt);
-
-            // Compare the generated hash with the stored hash
-            bool isPasswordValid = passwordHash.SequenceEqual(storedHash);
-
-            return isPasswordValid;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public bool UserExists(string username)
         {
-            return _dbContext.TmiUsers.Any(u => u.Username == username);
+            try
+            {
+                return _dbContext.TmiUsers.Any(u => u.Username == username);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public bool CreateUser(UserLoginDto userData, string role = "guest")
+        public TmiUser? GetUser(string username)
+        {
+            try
+            {
+                return _dbContext.TmiUsers.SingleOrDefault(u => u.Username == username);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool CreateUser(UserLoginDto userData, string role = "user")
         {
             if (userData == null)
             {
@@ -73,11 +99,6 @@ namespace FileUploaderBackend.Services
                 // TODO: Handle any database-related exceptions here
                 return false;
             }
-        }
-
-        public bool CreateUser(TmiUser newUser, string password)
-        {
-            throw new NotImplementedException();
         }
     }
 
