@@ -4,9 +4,12 @@ using FileUploaderBackend.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FileUploaderBackend.Controllers
 {
+    // [Authorize(Roles = "admin,user")]
+    [Authorize(Policy = "AdminOrUser")]
     [Route("[controller]")]
     [ApiController]
     public class ProMetadataController : Controller

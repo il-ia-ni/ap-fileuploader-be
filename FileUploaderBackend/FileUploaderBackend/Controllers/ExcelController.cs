@@ -1,4 +1,5 @@
 ﻿using FileUploaderBackend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
@@ -8,6 +9,8 @@ using System.Text.Json.Serialization;
 
 namespace FileUploaderBackend.Controllers
 {
+    // [Authorize(Roles = "admin,user")]
+    [Authorize(Policy = "AdminOrUser")]
     [Route("[controller]")]
     [ApiController]
     public class ExcelController : Controller

@@ -6,7 +6,8 @@ using ProLibrary.Models;
 
 namespace FileUploaderBackend.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    // [Authorize(Roles = "admin")]
+    [Authorize(Policy = "AdminOnly")]
     [Route("api/auth/adduser")]
     [ApiController]
     public class AuthAddTmiUserController : Controller
