@@ -15,9 +15,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "devPolicy",
         cfg =>
         {
-            cfg.WithOrigins("http://localhost:4200")
+            cfg.WithOrigins("http://localhost:4200", "https://localhost:4200", "localhost:4200")
             .WithMethods("GET", "POST", "PUT", "OPTIONS")
-            .WithHeaders(HeaderNames.ContentType)
+            .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization)
             .AllowCredentials();
         });
 });
