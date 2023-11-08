@@ -88,7 +88,7 @@ namespace FileUploaderBackend.Controllers
         [ProducesResponseType(500)]
         public async Task<ActionResult> CreateMetadata([FromBody] DcMetadata mdEntity)
         {
-            if (mdEntity == null)
+            if (mdEntity == null)  // if data couldn't be parsed to DcMetadata type
             {
                 return BadRequest("Invalid data provided");
             }
