@@ -81,7 +81,7 @@ namespace FileUploaderBackend.Services
             }
             try
             {
-                await _dbContext.DcMetadata.AddAsync(mdEntity);
+                _dbContext.DcMetadata.Add(mdEntity);
                 await Save();
             }
             catch (Exception ex)
@@ -128,7 +128,7 @@ namespace FileUploaderBackend.Services
 
         public async Task DeleteAllMdItems()
         {
-            await _dbContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE [DC_METADATA]");
+            await _dbContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE [PRO].[DC_METADATA]");  // TODO: schema and table names must be fetched from program config file
             // For raw sql in EF core 6 see https://stackoverflow.com/a/18986676
             await Save();
         }
