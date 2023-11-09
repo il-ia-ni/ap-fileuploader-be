@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
         cfg =>
         {
             cfg.WithOrigins("http://localhost:4200", "https://localhost:4200", "localhost:4200")
-            .WithMethods("GET", "POST", "PUT", "OPTIONS")
+            .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization)
             .AllowCredentials();
         });
@@ -67,6 +67,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PROContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("PRO:SqlServerDEV")));
 
+// https://stackoverflow.com/questions/54790460/asp-net-core-singleton-instance-vs-transient-instance-performance
 builder.Services.AddScoped<IAuthServicePSK, AuthServicePSK>();
 builder.Services.AddTransient<IProRepository, ProRepository>();
 builder.Services.AddTransient<IExcelReaderService, ExcelReaderService>();

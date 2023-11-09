@@ -17,7 +17,8 @@ namespace ProLibrary.Migrations
                 schema: "PRO",
                 columns: table => new
                 {
-                    ITEM_ID = table.Column<int>(type: "int", nullable: false),
+                    ITEM_ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ITEM_SOURCE = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: true),
                     HOST = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     ITEM_CONTAINER = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
@@ -35,6 +36,7 @@ namespace ProLibrary.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_DcMetadata", x => x.ITEM_ID);
                 });
         }
 

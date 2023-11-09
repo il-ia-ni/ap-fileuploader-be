@@ -10,8 +10,8 @@ namespace ProLibrary.Models
 {
     public partial class DcMetadata
     {
-        [Timestamp]
-        public byte[]? RowVersion { get; set; }  // this prop is used for tracking pessimistic concurrency
+        //[Timestamp]
+        //public byte[]? RowVersion { get; set; }  // this prop is used for tracking pessimistic concurrency
 
         public override string ToString()
         {

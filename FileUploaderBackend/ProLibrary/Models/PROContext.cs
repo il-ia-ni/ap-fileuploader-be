@@ -37,7 +37,8 @@ namespace ProLibrary.Models
                 entity.ToTable("DC_METADATA", "PRO");
 
                 entity.Property(e => e.ItemId)
-                    .ValueGeneratedNever()
+                    .HasPrecision(10)
+                    .UseIdentityColumn()
                     .HasColumnName("ITEM_ID");
 
                 entity.Property(e => e.Host)
